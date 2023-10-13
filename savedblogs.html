@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Blogs</title>
+    <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="img/Amazon-Logo-1024x426-1 - Copy.webp" alt="" style="max-height: 80px; max-width: 100%;">
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu(this)">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav">
+            <a href="index.html">HOME</a>
+            <a href="editor.html">EDITOR</a>
+            <a href="#">CONTACT</a>
+        </div>
+    </div>
+
+    <h1>Saved Blogs</h1>
+
+    <div class="saved-article-container">
+        <!-- Saved articles will be displayed here -->
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedArticleContainer = document.querySelector(".saved-article-container");
+
+            // Load existing blogs from local storage on page load
+            const existingBlogs = JSON.parse(localStorage.getItem("blogs")) || [];
+
+            existingBlogs.forEach((blogData, index) => {
+                createSavedBlog(blogData.title, blogData.content, blogData.imageUrl, index);
+            });
+
+            function createSavedBlog(title, content, imageUrl, index) {
+                const blog = document.createElement("div");
+                blog.classList.add("article");
+
+                blog.innerHTML = `
+                    <h2>${title}</h2>
+                    <p>${content}</p>
+                `;
+
+                if (imageUrl) {
+                    const image = document.createElement("img");
+                    image.src = imageUrl;
+                    blog.appendChild(image);
+                }
+
+                const removeButton = document.createElement("button");
+                removeButton.innerText = "Remove";
+                removeButton.addEventListener("click", () => removeBlog(index));
+                blog.appendChild(removeButton);
+
+                savedArticleContainer.appendChild(blog);
+            }
+
+            function removeBlog(index) {
+                // Remove the blog at the specified index from the existingBlogs array
+                existingBlogs.splice(index, 1);
+                // Update the local storage with the modified array
+                localStorage.setItem("blogs", JSON.stringify(existingBlogs));
+                // Remove the blog element from the page
+                const blogElements = savedArticleContainer.querySelectorAll(".article");
+                if (blogElements.length > index) {
+                    savedArticleContainer.removeChild(blogElements[index]);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
