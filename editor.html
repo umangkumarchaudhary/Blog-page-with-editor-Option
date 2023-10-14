@@ -10,7 +10,7 @@
 
     <div class="header">
         <div class="logo">
-            <img src="img/gfglogo.png" alt="" style="max-height: 80px; max-width: 100%;">
+            <img src="img/Amazon-Logo-1024x426-1 - Copy.webp" alt="" style="max-height: 80px; max-width: 100%;">
         </div>
         <div class="menu-toggle" onclick="toggleMenu(this)">
             <div></div>
@@ -19,11 +19,13 @@
         </div>
         <div class="nav">
             <a href="index.html">HOME</a>
-            <a href="#">BLOGS</a>
+            <a href="savedblogs.html">BLOGS</a>
             <a href="editor.html">EDITOR</a>
             <a href="#">CONTACT</a>
         </div>
     </div>
+
+    
      
 
 
@@ -36,6 +38,8 @@
         <a href="#">Clients</a>
         <a href="#">Contact</a>
     </div>
+
+    <button onclick="navigateToSavedBlogs()">Saved Blogs</button>
     
     <div class="editor">
         <h2>Blog Editor</h2>
@@ -44,78 +48,126 @@
             <input type="text" id="blog-title" required>
             
             <label for="blog-content">Blog Content:</label>
-            <div id="editor" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 200px; background-color: white;"></div>
+            <textarea id="blog-content" rows="4" required></textarea>
             
             <label for="blog-image">Blog Image:</label>
             <input type="file" id="blog-image" accept="image/*"> <!-- Use a file input for image upload -->
             
             <button type="submit">Add Blog</button>
         </form>
-        <script src="https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
-    <script>
-      CKEDITOR.replace('blog-content');
-    </script>
-    </div>
-    <hr>
-    <div class="button-container">
-        <button onclick="navigateToSavedBlogs()">Saved Blogs</button>
     </div>
     <div class="article-container">
         <!-- Articles will be displayed here -->
     </div>
 
+    <footer>
+        <div class="footer-items">
+            <!-- <div class="footer-logo" style="max-width: 100%;">
+                <img src="img/gfglogo.png" alt="">
+            </div> -->
+          <ul>
+            <h3>Get to Know Us</h3>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press Release</a></li>
+            <li><a href="#">Amazon Science</a></li>
+          </ul>
+          
+          <ul>
+            <h3>Connect with Us</h3>
+            <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+            <li><a href="#"><i class="fab fa-whatsapp"></i> whatsapp</a></li>
+            <li><a href="#"><i class="fab fa-pinterest"></i> pinterest</a></li>
+          </ul>
+    
+    
+          <ul>
+            <h3>Make Money with Us</h3>
+            <li><a href="#">Sell on Amazon</a></li>
+            <li><a href="#">Sell under Amazon Accelerator</a></li>
+            <li><a href="#">Protect and Build Your Brand</a></li>
+            <li><a href="#">Amazon Global Selling</a></li>
+            <li><a href="#">Become an Affiliate</a></li>
+            <li><a href="#">Fulfillment by Amazon</a></li>
+            <li><a href="#">Advertise Your Products</a></li>
+            <li><a href="#">Amazon Pay on Merchants</a></li>
+          </ul>
+          <ul>
+            <h3>Let Us Help You</h3>
+            <li><a href="#">COVID-19 and Amazon</a></li>
+            <li><a href="#">Your Account</a></li>
+            <li><a href="#">Return Centre</a></li>
+            <li><a href="#">100% Purchase Protection</a></li>
+            <li><a href="#">Amazon App Download</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+        </div>
+      </footer>
+
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const blogEditorForm = document.getElementById("blog-editor-form");
-            const articleContainer = document.querySelector(".article-container");
+    const blogEditorForm = document.getElementById("blog-editor-form");
+    const articleContainer = document.querySelector(".article-container");
 
-            // Load existing blogs from local storage on page load
-            const existingBlogs = JSON.parse(localStorage.getItem("blogs")) || [];
-            existingBlogs.forEach(blogData => {
-                createBlog(blogData.title, blogData.content, blogData.imageUrl);
-            });
+    // Load existing blogs from local storage on page load
+    const existingBlogs = JSON.parse(localStorage.getItem("blogs")) || [];
+    existingBlogs.forEach(blogData => {
+        createBlog(blogData.title, blogData.content, blogData.imageData);
+    });
 
-            blogEditorForm.addEventListener("submit", (e) => {
-                e.preventDefault();
+    blogEditorForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-                const title = document.getElementById("blog-title").value;
-                const content = document.getElementById("blog-content").value;
-                const imageInput = document.getElementById("blog-image");
-                
-                if (title && content) {
-                    // Handle file upload
-                    const file = imageInput.files[0];
-                    const imageUrl = URL.createObjectURL(file);
+        const title = document.getElementById("blog-title").value;
+        const content = document.getElementById("blog-content").value;
+        const imageInput = document.getElementById("blog-image");
 
-                    createBlog(title, content, imageUrl);
+        if (title && content) {
+            // Handle file upload
+            const file = imageInput.files[0];
+            const reader = new FileReader();
 
-                    // Store the new blog in local storage
-                    const newBlogData = { title, content, imageUrl };
-                    existingBlogs.push(newBlogData);
-                    localStorage.setItem("blogs", JSON.stringify(existingBlogs));
+            reader.onload = function() {
+                const imageData = reader.result;
 
-                    blogEditorForm.reset();
-                }
-            });
+                createBlog(title, content, imageData);
 
-            function createBlog(title, content, imageUrl) {
-                const blog = document.createElement("div");
-                blog.classList.add("article");
+                // Store the new blog in local storage
+                const newBlogData = { title, content, imageData };
+                existingBlogs.push(newBlogData);
+                localStorage.setItem("blogs", JSON.stringify(existingBlogs));
 
-                blog.innerHTML = `
-                    <h2>${title}</h2>
-                    <p>${content}</p>
-                `;
+                blogEditorForm.reset();
+            };
 
-                if (imageUrl) {
-                    const image = document.createElement("img");
-                    image.src = imageUrl;
-                    blog.appendChild(image);
-                }
+            reader.readAsDataURL(file);
+        }
+    });
 
-                articleContainer.appendChild(blog);
-            }
-        });
+    function createBlog(title, content, imageData) {
+        const blog = document.createElement("div");
+        blog.classList.add("article");
+        blog.innerHTML = `
+            <h2>${title}</h2>
+            <p>${content}</p>
+        `;
+       
+
+        if (imageData) {
+            const image = document.createElement("img");
+            image.src = imageData;
+            image.style.maxWidth = "100%";
+            blog.appendChild(image);
+        }
+        
+
+        articleContainer.appendChild(blog);
+    }
+});
+
     </script>
 
     <script>
@@ -136,6 +188,5 @@ function closeNav() {
             window.location.href = "savedblogs.html";
         }
     </script>
-
 </body>
 </html>

@@ -219,7 +219,7 @@ button {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: #0772f5;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -229,12 +229,12 @@ button {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: #fb0404;
     display: block;
     transition: 0.3s;
   }
   .sidenav a:hover {
-    color: #f1f1f1;
+    color: #ef0606;
   }
   
   .sidenav .closebtn {
@@ -253,3 +253,79 @@ button {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+
+  
+footer {
+    margin-top: 14px;
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0;
+  }
+  
+  /* Center-align the "Back to top" link */
+  .footer-title {
+    text-align: center;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #0074cc; /* Use your brand's color for links */
+    text-decoration: none;
+  }
+  
+  /* Style the footer items container */
+  .footer-items {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Style the footer item lists */
+  .footer-items ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Style the footer item list headings */
+  .footer-items h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* Style the footer item links */
+  .footer-items a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  /* On hover styles for links */
+  .footer-items a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Create columns for small screens */
+  @media screen and (max-width: 768px) {
+    .footer-items ul {
+      flex: 1;
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 600px) {
+    .product-section {
+        grid-template-columns: 1fr; /* Display in a single column */
+    }
+}
+
+/* Define the animation */
+
+@media (max-width: 435px) {
+    .footer-logo img {
+        max-width: 80%; /* Adjust the value as needed */
+    }
+}

@@ -1,25 +1,59 @@
-const blogTitleField = document.querySelector('#blog-title');
-const blogContentField = document.querySelector('#blog-content');
-const imageUploadField = document.querySelector('#image-upload');
-const publishBtn = document.querySelector('#publish-btn');
+document.addEventListener("DOMContentLoaded", () => {
+  const blogEditorForm = document.getElementById("blog-editor-form");
+  const articleContainer = document.querySelector(".article-container");
 
-imageUploadField.addEventListener('change', () => {
-  // Get the uploaded image file.
-  const imageFile = imageUploadField.files[0];
+  // Load existing blogs from local storage on page load
+  const existingBlogs = JSON.parse(localStorage.getItem("blogs")) || [];
+  existingBlogs.forEach(blogData => {
+      createBlog(blogData.title, blogData.content, blogData.imageData);
+  });
 
-  // Upload the image file to the server.
+  blogEditorForm.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-  // Get the URL of the uploaded image.
+      const title = document.getElementById("blog-title").value;
+      const content = document.getElementById("blog-content").value;
+      const imageInput = document.getElementById("blog-image");
 
-  // Insert the image URL into the blog content field.
+      if (title && content) {
+          // Handle file upload
+          const file = imageInput.files[0];
+          const reader = new FileReader();
+
+          reader.onload = function() {
+              const imageData = reader.result;
+
+              createBlog(title, content, imageData);
+
+              // Store the new blog in local storage
+              const newBlogData = { title, content, imageData };
+              existingBlogs.push(newBlogData);
+              localStorage.setItem("blogs", JSON.stringify(existingBlogs));
+
+              blogEditorForm.reset();
+          };
+
+          reader.readAsDataURL(file);
+      }
+  });
+
+  function createBlog(title, content, imageData) {
+      const blog = document.createElement("div");
+      blog.classList.add("article");
+
+      blog.innerHTML = `
+          <h2>${title}</h2>
+          <p>${content}</p>
+      `;
+
+      if (imageData) {
+          const image = document.createElement("img");
+          image.src = imageData;
+          image.style.maxWidth = "100%";
+          blog.appendChild(image);
+      }
+
+      articleContainer.appendChild(blog);
+  }
 });
 
-publishBtn.addEventListener('click', () => {
-  // Get the blog title and content from the text fields.
-  const blogTitle = blogTitleField.value;
-  const blogContent = blogContentField.value;
-
-  // Save the blog post to the database, including the image URL.
-
-  // Display a success message to the user.
-});
