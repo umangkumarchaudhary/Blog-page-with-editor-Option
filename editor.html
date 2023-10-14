@@ -44,20 +44,25 @@
             <input type="text" id="blog-title" required>
             
             <label for="blog-content">Blog Content:</label>
-            <textarea id="blog-content" rows="4" required></textarea>
+            <div id="editor" contenteditable="true" style="border: 1px solid #ccc; padding: 5px; min-height: 200px; background-color: white;"></div>
             
             <label for="blog-image">Blog Image:</label>
             <input type="file" id="blog-image" accept="image/*"> <!-- Use a file input for image upload -->
             
             <button type="submit">Add Blog</button>
         </form>
+        <script src="https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
+    <script>
+      CKEDITOR.replace('blog-content');
+    </script>
     </div>
-
+    <hr>
+    <div class="button-container">
+        <button onclick="navigateToSavedBlogs()">Saved Blogs</button>
+    </div>
     <div class="article-container">
         <!-- Articles will be displayed here -->
     </div>
-
-    <button onclick="navigateToSavedBlogs()">Saved Blogs</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -131,5 +136,6 @@ function closeNav() {
             window.location.href = "savedblogs.html";
         }
     </script>
+
 </body>
 </html>
